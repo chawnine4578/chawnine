@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basic Geriatric Screening (BGS)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e4f3fb;--bg2:#dff5f1;--card:#fff;--ink:#1d3b4f;--mut:#5d7a8c;--pri:#2b9bd6;--pri2:#1b7fb5;--teal:#2bb3a6;--line:#d3e6f0;--soft:#f1f9fd;--ok:#16825a;--warn:#b86a12;--okb:#dff6ec;--wb:#fff0dc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f2230;--bg2:#0f2a2b;--card:#17303f;--ink:#e3f1f8;--mut:#93b0c0;--pri:#4cb4e8;--pri2:#2b9bd6;--line:#27465a;--soft:#1b3646;--ok:#5fd6a3;--warn:#f0b068;--okb:#17382f;--wb:#3b2d17}}
+:root[data-theme="dark"]{--bg:#0f2230;--bg2:#0f2a2b;--card:#17303f;--ink:#e3f1f8;--mut:#93b0c0;--pri:#4cb4e8;--pri2:#2b9bd6;--line:#27465a;--soft:#1b3646;--ok:#5fd6a3;--warn:#f0b068;--okb:#17382f;--wb:#3b2d17}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'Noto Sans Thai','Sarabun',Tahoma,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg),var(--bg2));min-height:100vh;line-height:1.6;font-size:16px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--card);border-radius:20px;padding:16px 20px;box-shadow:0 2px 10px rgba(43,155,214,.12);margin-bottom:16px}
+h1{margin:0;font-size:1.35rem;color:var(--pri2)}h1 small{display:block;font-size:.8rem;color:var(--mut);font-weight:400}
+.clock{display:flex;gap:10px;flex-wrap:wrap}.clock div{background:var(--soft);border-radius:14px;padding:8px 14px;display:flex;gap:8px;align-items:center;font-weight:600}
+.clock svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.card{background:var(--card);border-radius:20px;padding:18px 20px;box-shadow:0 2px 10px rgba(43,155,214,.1);margin-bottom:14px}
+.card h2{margin:0 0 10px;font-size:1.08rem;color:var(--pri2)}
+.grp{font-weight:700;margin:6px 4px 10px;color:var(--teal)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.stat{background:var(--card);border-radius:18px;padding:14px 18px;box-shadow:0 2px 10px rgba(43,155,214,.1)}.stat b{display:block;font-size:1.9rem;color:var(--pri2);line-height:1.2}.stat span{color:var(--mut);font-size:.9rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+button,.btn{font:inherit;font-weight:600;border:0;border-radius:14px;padding:10px 18px;cursor:pointer;background:var(--pri);color:#fff;box-shadow:0 2px 6px rgba(27,127,181,.25)}
+button:hover{background:var(--pri2)}button.sec{background:var(--soft);color:var(--pri2);box-shadow:none;border:1px solid var(--line)}button.teal{background:var(--teal)}button.dng{background:#d9534f}button.sm{padding:6px 12px;font-size:.88rem;border-radius:11px}
+input[type=text],input[type=number],input[type=date],input[type=search],select{font:inherit;width:100%;padding:9px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--pri);border-color:var(--pri)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}th{text-align:left;background:var(--soft);color:var(--pri2);padding:10px;font-size:.9rem}td{padding:10px;border-top:1px solid var(--line);vertical-align:middle}
+.bd{display:inline-block;border-radius:20px;padding:2px 12px;font-size:.82rem;font-weight:600}.bd.ok{background:var(--okb);color:var(--ok)}.bd.no{background:var(--wb);color:var(--warn)}
+.act{display:flex;gap:6px;flex-wrap:wrap}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.fg label{font-size:.9rem;color:var(--mut);display:block;margin-bottom:3px}
+.q{padding:10px 0;border-top:1px dashed var(--line)}.q:first-of-type{border-top:0}.ql{font-weight:600;margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}.ch{display:flex;gap:10px;align-items:flex-start;background:var(--soft);border:1.5px solid var(--line);border-radius:14px;padding:8px 14px;cursor:pointer;transition:.18s;user-select:none}.ch:hover{border-color:var(--pri);transform:translateY(-1px);box-shadow:0 3px 8px rgba(43,155,214,.18)}.ch:has(input:checked){background:linear-gradient(135deg,rgba(43,155,214,.16),rgba(43,179,166,.2));border-color:var(--teal);font-weight:600;box-shadow:0 3px 10px rgba(43,179,166,.28)}
+.ch input{appearance:none;-webkit-appearance:none;width:22px;height:22px;margin:2px 0 0;border:2px solid #8fbad2;border-radius:50%;background:var(--card);flex:none;display:grid;place-content:center;transition:.18s;cursor:pointer}.ch input[type=checkbox]{border-radius:7px}
+.ch input::before{content:'';width:10px;height:10px;border-radius:50%;background:#fff;transform:scale(0);transition:.2s cubic-bezier(.3,1.7,.5,1)}.ch input[type=checkbox]::before{width:12px;height:6px;border-radius:0;background:none;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) scale(0);margin-top:-2px}
+.ch input:checked{background:linear-gradient(135deg,var(--pri),var(--teal));border-color:transparent;box-shadow:0 0 0 4px rgba(43,179,166,.2)}.ch input:checked::before{transform:scale(1)}.ch input[type=checkbox]:checked::before{transform:rotate(-45deg) scale(1)}.ch input:focus-visible{outline:3px solid rgba(43,155,214,.45);outline-offset:2px}
+.rep{position:fixed;left:-10000px;top:0;width:794px;background:#fff;color:#000;font-family:'Noto Sans Thai',Tahoma,sans-serif;font-size:13px;line-height:1.55}.rep .rb{padding:5px 26px;background:#fff}.rep .rt{font-size:17px;font-weight:700;text-align:center;color:#1b7fb5}.rep .rh{font-weight:700;background:#e4f3fb;color:#1b7fb5;padding:4px 10px;border-radius:6px;margin-bottom:3px}.rep .rg{font-weight:700;font-size:15px;color:#168a80;padding-top:10px}.rep .rq{margin:3px 0}.rep .ro{display:inline-block;margin:1px 14px 1px 0}.rep .ro.on{font-weight:700;color:#1b7fb5}.rep .bx{display:inline-block;width:11px;height:11px;border:1.5px solid #6b8fa3;border-radius:3px;margin-right:5px;vertical-align:-1px;background:#fff}.rep .bx.on{background:#2bb3a6;border-color:#2bb3a6;box-shadow:inset 0 0 0 2px #fff}.rep .pg{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px}.rep img{width:200px;border:1px solid #000;border-radius:4px}
+.rep{font-size:12.5px;color:#000}.rep .rb{padding:0 26px}.rep .sx{display:flex;border:1px solid #000;background:#fff}.rep .sx.hd{display:block;border:0;padding:10px 0 6px}.rep .sx.gt{justify-content:center;font-weight:700;font-size:14px;padding:5px}.rep .sl{flex:1 1 62%;padding:5px 10px}.rep .sr{flex:0 0 38%;padding:5px 10px;border-left:1px solid #000;font-size:11.5px}.rep .rh{background:none;color:#000;font-weight:700;padding:0;margin-bottom:3px;font-size:13.5px;border-radius:0}.rep .rt{color:#000;font-size:16px;margin-bottom:6px}.rep .hl{margin:4px 0}.rep .u{display:inline-block;border-bottom:1px dotted #000;min-width:50px;padding:0 6px;margin:0 8px 0 3px;font-weight:600;text-align:center}.rep .rn{color:#000;margin:2px 0;font-size:11.5px}.rep .ro.on{color:#000;font-weight:700}.rep .bx{position:relative;width:12px;height:12px;border:1.5px solid #000;border-radius:1px;box-shadow:none;background:#fff}.rep .bx.on{background:#fff;border-color:#000;box-shadow:none}.rep .bx.on::after{content:'✓';position:absolute;left:0;top:-5px;font-size:15px;font-weight:700;line-height:1}.rep .fn{font-size:11px;padding:8px 0}
+.own{text-align:center;font-weight:700;color:var(--pri2);background:var(--card);border-radius:30px;padding:6px 20px;margin:0 auto 12px;width:fit-content;max-width:100%;box-shadow:0 2px 8px rgba(43,155,214,.14)}
+.q.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.q.row .ql{margin:0;flex:1 1 260px}.nu{display:flex;gap:8px;align-items:center;flex:0 1 220px}.nu em{font-style:normal;color:var(--mut);white-space:nowrap;font-size:.88rem}
+.note{background:var(--soft);border-radius:12px;padding:8px 12px;color:var(--mut);font-size:.88rem;margin:6px 0}.calc{background:var(--okb);color:var(--ok);border-radius:12px;padding:8px 14px;margin:8px 0;font-weight:600}
+.who{display:flex;flex-wrap:wrap;gap:6px 22px;background:var(--card);border-left:6px solid var(--teal);border-radius:16px;padding:12px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(43,155,214,.1)}.who b{font-size:1.15rem}
+.bar{position:sticky;bottom:0;z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--card);border-radius:18px 18px 0 0;padding:12px 16px;box-shadow:0 -3px 14px rgba(43,155,214,.2);margin-top:14px}
+.chip{border-radius:20px;padding:4px 14px;font-weight:600;font-size:.88rem}.chip.ok{background:var(--okb);color:var(--ok)}.chip.no{background:var(--wb);color:var(--warn)}
+#toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90%}#toast.on{opacity:1}
+.err{color:#d9534f;font-size:.88rem;margin-top:4px}.warnb{background:var(--wb);color:var(--warn);border-radius:12px;padding:8px 14px;margin-bottom:12px}
+.empty{text-align:center;color:var(--mut);padding:22px}.tool{background:var(--soft);border:1.5px dashed var(--pri);border-radius:14px;padding:10px 14px;margin:8px 0}.wbox{font-size:1.6rem;font-weight:700;text-align:center;padding:12px;color:var(--pri2)}.clk{width:100%;max-width:360px;aspect-ratio:1;border:2px solid var(--line);border-radius:16px;background:#fff;touch-action:none;display:block;margin:8px 0;cursor:crosshair}
+@media(max-width:600px){.wrap{padding:10px}h1{font-size:1.15rem}}
+</style>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'></script>
+</head>
+<body><div class="wrap">
+<div class="own">🩺 เว็บไซต์นี้ของ นางสะเทื้อน ปู่น้อย</div>
+<header class="top">
+<h1>Basic Geriatric Screening (BGS)<small>แบบฟอร์มคัดกรองผู้สูงอายุ และการคัดกรองกลุ่มอาการของผู้สูงอายุ 9 ด้าน ปี 2569</small></h1>
+<div class="clock"><div><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg><span id="cd">-</span></div>
+<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="ct" style="font-variant-numeric:tabular-nums">--:--:--</span></div></div>
+</header>
+<div id="app"></div></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- นาฬิกา (เวลาไทย) ---------- */
+const dF=new Intl.DateTimeFormat('th-TH-u-ca-buddhist',{timeZone:'Asia/Bangkok',weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const tF=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+const isoToday=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok'}).format(new Date());
+function tick(){const n=new Date();$('#cd').textContent=dF.format(n);$('#ct').textContent=tF.format(n)}tick();setInterval(tick,1000);
+/* ---------- การจัดเก็บ (localStorage ในเบราว์เซอร์) ---------- */
+let DB={people:[],scr:{}},storeOK=true,lastSave=null;
+try{const r=localStorage.getItem('bgs_v1');if(r)DB=JSON.parse(r);localStorage.setItem('bgs_t','1');localStorage.removeItem('bgs_t')}catch(e){storeOK=false}
+function persist(){try{localStorage.setItem('bgs_v1',JSON.stringify(DB));storeOK=true;lastSave=new Date();return true}catch(e){storeOK=false;return false}}
+const S={v:'home',q:'',dirty:false,pid:null,warn:false};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2800)}
+const uid=()=>'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const ageOf=d=>{if(!d)return'';const b=new Date(d),n=new Date(isoToday());let a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a>=0&&a<150?String(a):''};
+const fmtD=iso=>{try{return new Intl.DateTimeFormat('th-TH-u-ca-buddhist',{timeZone:'Asia/Bangkok',day:'numeric',month:'short',year:'numeric'}).format(new Date(iso))}catch(e){return''}};
+/* ---------- ฟอร์มประวัติบุคคล ---------- */
+const PF=[['unit','หน่วยงาน','t'],['unit_amp','อำเภอ (หน่วยงาน)','t'],['name','ชื่อ-สกุล *','t'],['dob','วัน/เดือน/ปี เกิด','d'],['age','อายุ (ปี)','n'],['sex','เพศ','s'],['nid','เลขบัตรประชาชน (13 หลัก)','t'],['tel','เบอร์โทรศัพท์','t'],['addr','ที่อยู่เลขที่','t'],['moo','หมู่','t'],['tambon','ตำบล','t'],['amp','อำเภอ','t'],['prov','จังหวัด','t'],['ref_name','บุคคลอ้างอิง ชื่อ-สกุล','t'],['ref_rel','ความสัมพันธ์','t']];
+/* ---------- โครงสร้างแบบคัดกรอง (ตาม PDF) ---------- */
+const R=(n,l,o)=>({k:'r',n,l,o}),N=(n,l,u)=>({k:'n',n,l,u}),T=(n,l)=>({k:'t',n,l}),D=(n,l)=>({k:'d',n,l}),C=(n,l,o)=>({k:'c',n,l,o}),I=l=>({k:'i',l}),X=(id,l)=>({k:'x',id,l});
+const YN=['ไม่ใช่','ใช่'],MM=['ไม่มี','มี'],LR=['ซ้าย','ขวา'];
+const ADL=[['กินอาหาร เมื่อเตรียมสำหรับไว้ให้ต่อหน้า',[['0','ทำไม่ได้ (0)'],['1','ทำเองได้บ้างแต่ต้องมีคนช่วย (1)'],['2','ทำได้เอง (2)']]],
+['ล้างหน้า หวีผม แปรงฟัน โกนหนวด (1-2 วันที่ผ่านมา)',[['1','ทำได้เอง (1)'],['0','ต้องการความช่วยเหลือ (0)']]],
+['ลุกนั่งจากที่นอน หรือจากเตียงไปยังเก้าอี้',[['0','ทำไม่ได้ (0)'],['1','ต้องการความช่วยเหลืออย่างมาก (1)'],['2','ต้องการความช่วยเหลือบ้าง (2)'],['3','เดินได้เอง (3)']]],
+['การใช้ห้องน้ำ ห้องส้วม',[['0','ช่วยตัวเองไม่ได้ (0)'],['1','ทำเองได้บ้าง (1)'],['2','ช่วยเหลือตัวเองได้ดี (2)']]],
+['การเคลื่อนที่ภายในห้องหรือบ้าน',[['0','เคลื่อนที่ไปไหนไม่ได้ (0)'],['1','ต้องใช้รถเข็นแต่ไม่ต้องช่วย (1)'],['2','เดินได้ต้องมีคนช่วยพยุง (2)'],['3','เดินได้เอง (3)']]],
+['การสวมใส่เสื้อผ้า',[['0','ต้องมีคนสวมให้ (0)'],['1','ช่วยตัวเองได้ประมาณครึ่งหนึ่งที่เหลือต้องช่วย (1)'],['2','ทำได้เอง (2)']]],
+['การขึ้นลงบันได 1 ชั้น',[['0','ไม่สามารถทำได้ (0)'],['1','ต้องการคนช่วย (1)'],['2','ขึ้นลงได้เอง (ถ้าต้องใช้เครื่องช่วยเดิน เช่น walker จะต้องเอาขึ้นลงได้ด้วย) (2)']]],
+['การอาบน้ำ',[['1','อาบน้ำเองได้ (1)'],['0','ต้องมีคนช่วยหรือทำให้ (0)']]],
+['การกลั้นการถ่ายอุจจาระในระยะ 1 สัปดาห์ที่ผ่านมา',[['0','กลั้นไม่ได้ (0)'],['1','กลั้นไม่ได้บางครั้ง เป็นน้อยกว่า 1 ครั้งต่อสัปดาห์ (1)'],['2','กลั้นได้ปกติ (2)']]],
+['การกลั้นปัสสาวะในระยะ 1 สัปดาห์ที่ผ่านมา',[['0','กลั้นไม่ได้ (0)'],['1','กลั้นไม่ได้บางครั้ง เป็นน้อยกว่าวันละ 1 ครั้ง (1)'],['2','กลั้นได้ปกติ (2)']]]];
+const SEC=[
+{g:'การคัดกรองปัญหาสำคัญและโรคที่พบบ่อย'},
+{t:'1. โรคความดันโลหิตสูง',i:[R('ht','',['ไม่เคยได้รับการวินิจฉัยว่าเป็นโรคความดันโลหิตสูง','เป็นโรคความดันโลหิตสูง ได้รับการรักษา','เป็นโรคความดันโลหิตสูง ไม่ได้รับการรักษา']),N('ht_sbp','วัดค่าความดันโลหิต SBP','ม.ม.ปรอท'),N('ht_dbp','DB','ม.ม.ปรอท')]},
+{t:'2. โรคเบาหวาน',i:[R('dm','',['ไม่เคยได้รับการวินิจฉัยว่าเป็นโรคเบาหวาน','เป็นโรคเบาหวาน ได้รับการรักษา','เป็นโรคเบาหวาน ไม่ได้รับการรักษา']),N('dm_fpg','เจาะน้ำตาลในเลือด FPG','มก./ดล.'),N('dm_fin','เจาะปลายนิ้ว','มก./ดล.')]},
+{t:'3. ความเสี่ยงต่อโรคหัวใจและหลอดเลือดสมอง (CVD Risk)',i:[N('cv_sbp','1. ค่าความดันโลหิต ตัวบน (SBP)','ม.ม.ปรอท'),N('cv_dbp','ตัวล่าง (DBP)','ม.ม.ปรอท'),R('cv_smoke','2. ยังสูบบุหรี่เส้น บุหรี่ซิการ์หรือหยุดสูบไม่เกิน 1 ปี',YN.slice().reverse()),R('cv_dm','3. เป็นโรคเบาหวานหรือไม่',['เป็น','ไม่เป็น']),N('chol','4. Cholesterol','mg/dl'),N('weight','5. น้ำหนัก','กิโลกรัม'),N('height','6. ส่วนสูง','เซนติเมตร'),N('waist','7. รอบเอว','เซนติเมตร'),R('cv_r','การแปลผลความเสี่ยง',['ต่ำ < 10%','ปานกลาง 10 - < 20%','สูง 20 - < 30%','สูงมาก 30 - < 40%','สูงอันตราย > 40% CVD Risk > 30%']),I('ให้ความรู้โดยใช้หลัก 3อ2ส และเข้าสู่กระบวนการปรับเปลี่ยนพฤติกรรมสุขภาพ หมายเหตุ ใช้ร่วมกับตารางในคู่มือคัดกรอง 2564')]},
+{t:'4. กระดูกพรุน OSTA Index (Osteoporosis Self-Assessment Tool for Asians)',i:[I('สูตรคำนวณ OSTA Index = 0.2 x (น้ำหนักตัว - อายุ) · ใช้น้ำหนักจากข้อ 3 และอายุจากประวัติบุคคล'),X('osta_v','ค่า OSTA Index'),R('osta_r','การแปลผล',['เสี่ยงสูง','เสี่ยงปานกลาง','เสี่ยงต่ำ']),I('OSTA Index < -4 : เสี่ยงสูง · -4 ถึง -1 : เสี่ยงปานกลาง · > -1 : เสี่ยงต่ำ')]},
+{t:'5. ข้อเข่าเสื่อม : การคัดกรองโรคข้อเข่าเสื่อมทางคลินิก ถามผู้สูงอายุดังนี้',i:[R('k1','5.1 ข้อเข่าฝืดตึงหลังตื่นนอนตอนเช้านาน < 30 นาที (Stiffness)',YN),R('k2','5.2 เสียงดังกรอบแกรบในข้อเข่าขณะเคลื่อนไหว (Crepitus)',YN),R('k3','5.3 กดเจ็บที่กระดูกข้อเข่า (Bony tenderness)',YN),R('k4','5.4 ข้อใหญ่ผิดรูป (Bony enlargement)',YN),R('k5','5.5 ไม่พบข้ออุ่น (No palpable warmth)',YN),R('k_r','สรุปผล',['เสี่ยงเป็นข้อเข่าเสื่อม','ไม่เสี่ยง']),I('ถ้าผู้สูงอายุมีอาการ “ปวดเข่า” และตอบว่า “ใช่” 2 ข้อ ถือว่ามีโอกาสที่จะเป็นโรคข้อเข่าเสื่อม')]},
+{g:'การคัดกรองกลุ่มอาการของผู้สูงอายุ'},
+{t:'6. ความคิดความจำ : ใช้แบบประเมิน Mini-Cog',i:[I('6.1 บอกคำ 3 คำให้จำ: 1) หลานสาว 2) สวรรค์ 3) ภูเขา · 6.2 วาดรูปนาฬิกาโดยใส่ตัวเลขและเข็มนาฬิกาที่เวลา 11.10 น. (2 คะแนน) · 6.3 ให้บอกคำ 3 คำที่ให้จำ (ตอบถูกคำละ 1 คะแนน คะแนนเต็ม 3 คะแนน)'),{k:'w'},R('mc_w','6.3 จำคำได้ (คะแนน)',['0','1','2','3']),{k:'cl'},R('mc_c','6.2 วาดรูปนาฬิกา (คะแนน)',[['0','0 คะแนน'],['2','2 คะแนน']]),X('mc_v','คะแนนรวม Mini-Cog (เต็ม 5)'),R('mc_r','การแปลผล',[['ปกติ','ปกติ (4-5 คะแนน)'],['ส่งต่อ','ส่งต่อ (≤ 3 คะแนน : มีความเสี่ยงต่อภาวะสมองเสื่อม ส่งต่อคลินิกผู้สูงอายุ ตรวจประเมินวินิจฉัยต่อ MMSE, TMSE, MoCA)']])]},
+{t:'7. การเคลื่อนไหวร่างกาย',i:[I('7.1 Time up and Go Test: TUGT ให้ผู้สูงอายุลุกขึ้นจากเก้าอี้ที่มีที่ท้าวแขน เดินเป็นเส้นตรงระยะ 3 เมตร หมุนตัวและเดินกลับมานั่งที่เดิม จับเวลา'),{k:'sw'},N('tg_m','เวลาที่ได้','นาที'),N('tg_s','','วินาที'),R('tg_r','การแปลผล',[['ปกติ','ปกติ (ใช้เวลา < 12 วินาที)'],['เสี่ยง','เสี่ยงต่อภาวะหกล้ม (≥ 12 วินาที)'],['เดินไม่ได้','เดินไม่ได้']]),R('fall','7.2 ท่านมีประวัติหกล้มภายใน 6 เดือน ที่ผ่านมา อย่างน้อย 1 ครั้งหรือไม่',['ไม่มีประวัติหกล้ม : ปกติ','มีประวัติหกล้ม : มีความเสี่ยงต่อภาวะหกล้ม ให้ส่งต่อคลินิกผู้สูงอายุ'])]},
+{t:'8. การขาดสารอาหาร : คำถาม',i:[R('n1','8.1 น้ำหนักลดลง > 3 กก. ใน 3 เดือนที่ผ่านมา หรือไม่',['ไม่มี (ปกติ)','มี (เสี่ยง)']),R('n2','8.2 ความอยากอาหารลดลงหรือไม่',['ไม่มี (ปกติ)','มี (เสี่ยง)']),I('ไม่มีทั้ง 2 ข้อ : ปกติ · มีข้อใดข้อหนึ่งหรือมีทั้ง 2 ข้อ : มีความเสี่ยงต่อการขาดสารอาหาร ส่งต่อเจ้าหน้าที่สาธารณสุข เพื่อประเมิน MNA วินิจฉัย รักษาต่อไป')]},
+{t:'9. การมองเห็น : คำถาม',i:[R('e1','9.1 ท่านมีปัญหาใดๆ เกี่ยวกับดวงตาของท่าน เช่น การมองระยะไกล การอ่านหนังสือ หรือไม่',['ไม่มีปัญหา','มีปัญหา']),I('9.2 สุขภาพทางตา : การคัดกรองสุขภาวะทางตา'),R('e2','1. นับนิ้วในระยะ 3 เมตรได้ถูกต้องน้อยกว่า 3 ใน 4 ครั้ง (สายตาระยะไกล)',YN),R('e3','2. อ่านหนังสือพิมพ์หน้าหนึ่งในระยะ 1 ฟุตไม่ได้ (สายตาระยะใกล้)',YN),R('e4','3. ปิดตาดูทีละข้าง พบว่า ตามัวคล้ายมีหมอกบัง (ความเสี่ยงต้อกระจก)',YN),C('e4s','ระบุตา',LR),R('e5','4. ปิดตาดูทีละข้าง พบว่า มองเห็นชัดแต่ตรงกลาง ไม่เห็นรอบข้าง หรือมักเดินชนประตู สิ่งของบ่อยๆ (ความเสี่ยงต้อหิน)',YN),C('e5s','ระบุตา',LR),R('e6','5. ปิดตาดูทีละข้าง พบว่ามองเห็นจุดดำกลางภาพหรือเห็นภาพบิดเบี้ยว (ความเสี่ยงโรคจอตาเสื่อมจากอายุ)',YN),C('e6s','ระบุตา',LR),R('e_r','การแปลผล',['ไม่มีปัญหา (ตอบ ไม่ใช่ ทุกข้อ)','มีปัญหา (ตอบ “ใช่” ข้อใดข้อหนึ่ง)']),I('มองเห็นมีปัญหา : ให้ทำ Snellen Chart และส่งต่อแพทย์เพื่อวินิจฉัยและรักษา')]},
+{t:'10. ภาวะซึมเศร้าและความเสี่ยงต่อการฆ่าตัวตาย (2Q Plus)',i:[I('ถามผู้สูงอายุว่า ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้'),R('q1','10.1 ท่านรู้สึกไม่สบายใจ เซ็ง ทุกข์ใจ เศร้า ท้อแท้ ซึม หงอย หรือไม่',['มี','ไม่มี']),R('q2','10.2 ท่านรู้สึกเบื่อ ไม่อยากพูด ไม่อยากทำอะไร หรือทำอะไรก็ไม่สนุก เพลิดเพลิน เหมือนเดิมหรือไม่',['มี','ไม่มี']),R('q3','10.3 ถามผู้สูงอายุว่า ใน 1 เดือน ที่ผ่านมารวมถึงวันนี้ ท่านมีความรู้สึกทุกข์ใจ จนไม่อยากมีชีวิตอยู่หรือไม่',['มี','ไม่มี']),I('10.1-10.2 : มีความรู้สึกอย่างน้อย 1 ข้อ มีความเสี่ยงต่อภาวะซึมเศร้า ส่งต่อเจ้าหน้าที่สาธารณสุขเพื่อประเมิน 9Q ต่อไป · 10.3 : มีความรู้สึก มีความเสี่ยงต่อการฆ่าตัวตาย ส่งต่อเจ้าหน้าที่สาธารณสุขเพื่อประเมิน 8Q ต่อไป')]},
+{t:'11. การได้ยิน : Finger rub test',i:[I('วิธีการ : ผู้ทดสอบถูนิ้วโป้งกับนิ้วชี้หน้าหูผู้ถูกทดสอบเบาๆ (ห่างจากหู ประมาณ 1 นิ้ว)'),R('fl','หูซ้าย',['ได้ยิน','ไม่ได้ยิน']),R('fr','หูขวา',['ได้ยิน','ไม่ได้ยิน']),I('ได้ยินทั้ง 2 ข้าง : ปกติ · ไม่ได้ยินทั้ง 2 ข้าง หรือไม่ได้ยินข้างเดียว : มีความเสี่ยงต่อปัญหาการได้ยิน ให้ส่งต่อคลินิกผู้สูงอายุให้แพทย์เพื่อวินิจฉัยและรักษา ตรวจการได้ยิน (Audiometry)')]},
+{t:'12. สุขภาพช่องปาก : คำถาม',i:[R('o1','12.1 ท่านมีความยากลำบากในการเคี้ยวอาหารแข็งหรือไม่',MM),R('o2','12.2 ท่านมีอาการเจ็บปวดในช่องปากหรือไม่',MM),R('o3','12.3 มีฟัน/รากฟันผุที่ไม่สามารถรักษาหรือป้องกันได้',MM),R('o4','12.4 มีเหงือกบวม ฝีหนอง ฟันโยก',MM),R('o5','12.5 จำนวนฟันแท้น้อยกว่าเกณฑ์ (อย่างน้อย 20 ซี่หรือ 4 คู่สบ)',YN.slice().reverse()),R('o6','12.6 ปัญหาเนื้อเยื่อช่องปาก: มีก้อนรอยแดงรอยขาว แผลเรื้อรัง นานกว่า 2 สัปดาห์',MM),R('o7','12.7 ปัญหาปากแห้ง น้ำลายแห้ง : ต้องดื่มน้ำตามเพื่อช่วยกลืนบ่อยครั้ง/มีอาการลิ้นแห้งติดเพดานบ่อย',MM),R('o8','12.8 สภาพช่องปาก (Oral Hygiene)',['สะอาด','ไม่สะอาด']),I('ข้อ 12.1-12.2 ไม่มีอาการทั้ง 2 ข้อ : ปกติ · มีอาการอย่างน้อย 1 ข้อ : มีความเสี่ยงต่อปัญหาสุขภาพช่องปากให้ทันตบุคลากรประเมินสุขภาพช่องปากต่อ · ข้อ 12.3-12.7 ถ้าประเมินว่า “มี” หรือ “ใช่” ≥ 1 ข้อ ควรส่งต่อเพื่อรับบริการทางทันตกรรมกับทันตบุคลากร · ข้อ 12.8 ถ้า “ไม่สะอาด” ควรฝึกการแปรงฟันและใช้อุปกรณ์เสริมเพื่อควบคุมคราบจุลินทรีย์')]},
+{t:'13. การกลั้นปัสสาวะ : คำถาม',i:[R('ur','“ท่าน (ผู้สูงอายุ) มีภาวะ ปัสสาวะเล็ด หรือ ปัสสาวะราด จนทำให้เกิดปัญหาในการใช้ชีวิตประจำวันหรือไม่”',['ไม่มี (ปกติ)','มี (เสี่ยง)']),I('มี (เสี่ยง) : ตรวจร่างกายประเมินอาการและส่งต่อคลินิกผู้สูงอายุให้แพทย์เพื่อตรวจประเมินวินิจฉัย รักษา')]},
+{t:'14. การปฏิบัติกิจวัตรประจำวัน',i:[I('คำถาม : ความสามารถในการช่วยเหลือตัวเองของผู้สูงอายุ ในการทำกิจวัตรประจำวันโดยไม่ต้องพึ่งคนอื่นลดลงหรือไม่ (กินอาหาร, ล้างหน้า แปรงฟัน, หวีผม, ลุกจากที่นอนหรือเตียง, เข้าห้องน้ำ, เคลื่อนที่ไปมาในบ้าน, สวมใส่เสื้อผ้า, ขึ้นลงบันได 1 ขั้น, อาบน้ำ, กลั้นอุจจาระ - ปัสสาวะ)'),R('adl_s','',['ความสามารถในการช่วยเหลือตัวเองปกติ (ไม่ลดลง) : ปกติ','ความสามารถในการช่วยเหลือตัวเองลดลง : มีความเสี่ยงต่อภาวะพึ่งพิง ให้ประเมิน Barthel ADL ต่อ'])]},
+{t:'14. การประเมินความสามารถในการทำกิจวัตรประจำวัน (Activities of Daily Living: ADL)',i:[...ADL.map((a,i)=>R('adl'+(i+1),(i+1)+'. '+a[0],a[1])),X('adl_v','รวมคะแนน'),R('adl_g','การแปลผล',[['สังคม','กลุ่มสังคม (ตั้งแต่ 12 คะแนนขึ้นไป)'],['ติดบ้าน','กลุ่มติดบ้าน (5 – 11 คะแนน)'],['ติดเตียง','กลุ่มติดเตียง (ตั้งแต่ 4 คะแนนลงมา)']])]},
+{t:'ผู้ทำการคัดกรอง',i:[T('scr_by','ลงชื่อ ผู้ทำการคัดกรอง'),T('scr_com','ทำการคัดกรอง ชุมชน'),D('scr_date','วันที่')]}];
+function item(it){const o=(it.o||[]).map(x=>typeof x==='string'?[x,x]:x);
+if(it.k==='r')return`<div class="q">${it.l?`<div class="ql">${it.l}</div>`:''}<div class="opts">${o.map(([v,t])=>`<label class="ch"><input type="radio" name="${it.n}" value="${esc(v)}"><span>${t}</span></label>`).join('')}</div></div>`;
+if(it.k==='c')return`<div class="q"><div class="opts"><span class="ql" style="margin:0;align-self:center">${it.l}</span>${o.map(([v,t])=>`<label class="ch"><input type="checkbox" name="${it.n}" value="${esc(v)}"><span>${t}</span></label>`).join('')}</div></div>`;
+if(it.k==='n')return`<div class="q row"><label class="ql" for="${it.n}">${it.l}</label><span class="nu"><input id="${it.n}" name="${it.n}" type="number" step="any" inputmode="decimal" min="0"><em>${it.u||''}</em></span></div>`;
+if(it.k==='t'||it.k==='d')return`<div class="q row"><label class="ql" for="${it.n}">${it.l}</label><span class="nu"><input id="${it.n}" name="${it.n}" type="${it.k==='d'?'date':'text'}"></span></div>`;
+if(it.k==='x')return`<div class="calc">${it.l}: <b id="${it.id}">-</b></div>`;
+if(it.k==='w')return`<div class="tool"><div class="ql">เครื่องมือ: คำ 3 คำสำหรับจำ (ข้อ 6.1 / 6.3)</div><div class="note">กด “แสดงคำ” ให้ผู้สูงอายุดูและพูดตาม แล้วกด “ซ่อนคำ” → ทำข้อ 6.2 วาดนาฬิกา → จากนั้นให้บอกคำที่จำได้ และติ๊กคำที่ตอบถูก (ระบบนับคะแนนให้)</div><div class="opts"><button type="button" class="sm" data-a="ww">แสดงคำ</button></div><div id="wbox" class="wbox">••• ซ่อนคำอยู่ •••</div><div class="opts">${['หลานสาว','สวรรค์','ภูเขา'].map(w=>`<label class="ch"><input type="checkbox" name="mc_rec" value="${w}"><span>จำได้: ${w}</span></label>`).join('')}</div></div>`;
+if(it.k==='cl')return`<div class="tool"><div class="ql">เครื่องมือ: วาดนาฬิกา (ข้อ 6.2)</div><div class="note">ให้ผู้สูงอายุวาดหน้าปัดนาฬิกา ใส่ตัวเลขและเข็มที่เวลา 11.10 น. ด้วยนิ้วหรือเมาส์ แล้วผู้ประเมินให้คะแนน 0 หรือ 2 ด้านล่าง ภาพจะถูกบันทึกพร้อมแบบคัดกรอง</div><div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start"><div style="flex:1 1 300px"><div class="ql">พื้นที่วาดนาฬิกา (วาดด้วยนิ้ว/เมาส์)</div><canvas id="clk" width="400" height="400" class="clk"></canvas></div><div style="flex:0 1 250px"><div class="ql">นาฬิกาตัวอย่างที่ถูกต้อง (11.10 น.)</div><canvas id="clkref" width="200" height="200" style="width:200px;height:200px;background:#fff;border-radius:50%;border:2px solid var(--line)"></canvas><div class="note">เกณฑ์ให้ 2 คะแนน: มีตัวเลข 1-12 ครบ เรียงลำดับและตำแหน่งถูกต้อง มีเข็มสั้นชี้เลข 11 และเข็มยาวชี้เลข 2 · ถ้าไม่ครบหรือผิด ให้ 0 คะแนน</div></div></div><div class="opts"><button type="button" class="sm sec" data-a="cc">ล้างภาพ / วาดใหม่</button></div></div>`;
+if(it.k==='sw')return`<div class="tool"><div class="ql">เครื่องมือ: จับเวลา TUGT</div><div class="calc" style="text-align:center;font-size:1.8rem;font-variant-numeric:tabular-nums" id="swt">0.0 วินาที</div><div class="opts"><button type="button" class="sm" data-a="sw1">▶ เริ่ม</button><button type="button" class="sm teal" data-a="sw2">■ หยุด และใส่เวลาให้</button><button type="button" class="sm sec" data-a="sw3">รีเซ็ต</button></div></div>`;
+return`<div class="note">${it.l}</div>`}
+/* ---------- หน้าจอ ---------- */
+const stChip=()=>!storeOK?'<span class="chip no">⚠ จัดเก็บไม่ได้ (เบราว์เซอร์บล็อก)</span>':`<span class="chip ok">จัดเก็บในเบราว์เซอร์นี้${lastSave?' · บันทึกล่าสุด '+tF.format(lastSave):''}</span>`;
+function rows(){const q=S.q.trim().toLowerCase(),L=DB.people.filter(p=>!q||[p.name,p.nid,p.tel,p.addr].join(' ').toLowerCase().includes(q));
+if(!L.length)return`<tr><td colspan="6" class="empty">${DB.people.length?'ไม่พบรายชื่อที่ค้นหา':'ยังไม่มีประวัติบุคคล กดปุ่ม “เพิ่มประวัติบุคคล” เพื่อเริ่มต้น'}</td></tr>`;
+return L.map(p=>{const s=DB.scr[p.id];return`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.nid)||'-'}</td><td>${esc(p.age)||'-'}</td><td>${esc(p.tel)||'-'}</td><td>${s?`<span class="bd ok">บันทึกแล้ว</span><br><small>${fmtD(s.at)}</small>`:'<span class="bd no">ยังไม่มีแบบคัดกรอง</span>'}</td><td><div class="act"><button class="sm" data-a="scr" data-id="${p.id}">${s?'เปิด/แก้ไขแบบคัดกรอง':'กรอกแบบคัดกรอง'}</button>${s?`<button class="sm teal" data-a="pdfh" data-id="${p.id}">📄 PDF</button>`:''}<button class="sm sec" data-a="edit" data-id="${p.id}">แก้ไขประวัติ</button></div></td></tr>`}).join('')}
+function home(){return`${storeOK?'':'<div class="warnb">เบราว์เซอร์นี้ไม่อนุญาตให้จัดเก็บข้อมูล ข้อมูลจะหายเมื่อปิดหน้า — โปรดใช้ปุ่ม “สำรองข้อมูล” เก็บไฟล์ไว้</div>'}
+<div class="stats"><div class="stat"><b>${DB.people.length}</b><span>บุคคลที่มีประวัติในระบบ</span></div><div class="stat"><b>${Object.keys(DB.scr).length}</b><span>คัดกรองและบันทึกแล้ว</span></div><div class="stat"><b>${DB.people.length-Object.keys(DB.scr).filter(k=>DB.people.some(p=>p.id===k)).length}</b><span>ยังไม่มีแบบคัดกรอง</span></div><div class="stat"><span>สถานะการบันทึกข้อมูล</span><br>${stChip()}</div></div>
+<div class="btns"><button data-a="add">＋ เพิ่มประวัติบุคคล</button><button class="teal" data-a="find">🔍 ค้นหาประวัติ</button><button class="teal" data-a="start">📝 เริ่มกรอกแบบคัดกรอง</button><button class="sec" data-a="exp">⬇ สำรองข้อมูล</button><label class="btn sec" style="display:inline-block;background:var(--soft);color:var(--pri2);box-shadow:none;border:1px solid var(--line)">⬆ นำเข้าข้อมูล<input type="file" id="imp" accept=".json" hidden></label></div>
+<div class="card" id="list"><h2>รายชื่อบุคคลที่บันทึกไว้</h2><div id="hint"></div><input type="search" id="q" placeholder="ค้นหาด้วยชื่อ เลขบัตรประชาชน หรือเบอร์โทรศัพท์" value="${esc(S.q)}" style="margin-bottom:12px"><div class="tw"><table><thead><tr><th>ชื่อ-สกุล</th><th>เลขบัตรประชาชน</th><th>อายุ</th><th>โทรศัพท์</th><th>สถานะแบบคัดกรอง</th><th></th></tr></thead><tbody id="tb">${rows()}</tbody></table></div></div>
+<div class="note">ข้อมูลจัดเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น (ยังไม่ใช่ฐานข้อมูลกลาง) — ควรกด “สำรองข้อมูล” เป็นระยะ</div>`}
+function personForm(){const p=S.pid?DB.people.find(x=>x.id===S.pid):{prov:'ประจวบคีรีขันธ์',unit:'สาธารณสุข',unit_amp:'สามร้อยยอด'};
+return`<div class="card"><h2>${S.pid?'แก้ไขประวัติบุคคล':'เพิ่มประวัติบุคคลใหม่'}</h2><form id="pf" onsubmit="return false"><div class="fg">${PF.map(([k,l,t])=>{const v=esc(p[k]);return`<div><label for="f_${k}">${l}</label>${t==='s'?`<select id="f_${k}" name="${k}"><option value="">- เลือก -</option>${['ชาย','หญิง'].map(x=>`<option ${p[k]===x?'selected':''}>${x}</option>`).join('')}</select>`:`<input id="f_${k}" name="${k}" type="${t==='d'?'date':t==='n'?'number':'text'}" value="${v}" ${k==='nid'?'maxlength="13" inputmode="numeric"':''}>`}</div>`}).join('')}</div><div id="perr" class="err"></div>
+<div class="btns" style="margin:16px 0 0"><button data-a="sp">บันทึกประวัติ</button><button class="sec" data-a="home">ยกเลิก / กลับ</button>${S.pid?`<button class="dng" data-a="del" data-id="${S.pid}">ลบประวัติ</button>`:''}</div></form></div>`}
+function scrView(){const p=DB.people.find(x=>x.id===S.pid);return`<div class="who"><span>ผู้รับการคัดกรอง: <b>${esc(p.name)}</b></span><span>อายุ ${esc(p.age)||'-'} ปี</span><span>เลขบัตร ${esc(p.nid)||'-'}</span><span>โทร ${esc(p.tel)||'-'}</span></div>
+<form id="sf" onsubmit="return false">${SEC.map(s=>s.g?`<div class="grp">${s.g}</div>`:`<div class="card"><h2>${s.t}</h2>${s.i.map(item).join('')}</div>`).join('')}</form>
+<div class="bar"><span id="st"></span><span class="act"><button class="sec" data-a="home">← กลับหน้าหลัก</button><button class="teal" data-a="pdf">📄 ส่งออก PDF</button><button data-a="ss">💾 บันทึกแบบคัดกรอง</button></span></div>`}
+function render(){$('#app').innerHTML=S.v==='home'?home():S.v==='person'?personForm():scrView();
+if(S.v==='scr'){const s=DB.scr[S.pid];if(s)fill(s.d);else{$('#scr_date').value=isoToday()}recalc();initClock();S.dirty=false;stat()}window.scrollTo(0,0)}
+function stat(){const e=$('#st');if(e)e.innerHTML=S.dirty?'<span class="chip no">ยังไม่ได้บันทึก</span>':(DB.scr[S.pid]?'<span class="chip ok">บันทึกแล้ว '+fmtD(DB.scr[S.pid].at)+'</span>':'<span class="chip no">ยังไม่ได้บันทึก (แบบใหม่)</span>')}
+/* ---------- ฟอร์ม: อ่าน/เติมข้อมูล/คำนวณ ---------- */
+function collect(){const d={};$('#sf').querySelectorAll('input').forEach(e=>{if(e.type==='radio'){if(e.checked)d[e.name]=e.value}else if(e.type==='checkbox'){if(e.checked)(d[e.name]=d[e.name]||[]).push(e.value)}else if(e.value!=='')d[e.name]=e.value});return d}
+function fill(d){$('#sf').querySelectorAll('input').forEach(e=>{const v=d[e.name];if(v==null)return;if(e.type==='radio')e.checked=v===e.value;else if(e.type==='checkbox')e.checked=v.includes(e.value);else e.value=v})}
+function setR(n,v){document.querySelectorAll(`#sf [name="${n}"]`).forEach(e=>e.checked=e.value===v)}
+function recalc(){const f=$('#sf');if(!f)return;const g=n=>{const e=f.querySelector(`[name="${n}"]:checked`);return e?e.value:null},v=n=>f.querySelector(`[name="${n}"]`).value,p=DB.people.find(x=>x.id===S.pid);
+const w=parseFloat(v('weight')),a=parseFloat(p.age);if(!isNaN(w)&&!isNaN(a)){const x=0.2*(w-a);$('#osta_v').textContent=x.toFixed(1);setR('osta_r',x<-4?'เสี่ยงสูง':x>-1?'เสี่ยงต่ำ':'เสี่ยงปานกลาง')}else $('#osta_v').textContent='- (ต้องมีน้ำหนักและอายุ)';
+if(g('mc_w')!=null&&g('mc_c')!=null){const t=+g('mc_w')+ +g('mc_c');$('#mc_v').textContent=t+' / 5';setR('mc_r',t>=4?'ปกติ':'ส่งต่อ')}else $('#mc_v').textContent='-';
+if((v('tg_m')!==''||v('tg_s')!=='')&&g('tg_r')!=='เดินไม่ได้'){const s=(+v('tg_m')||0)*60+(+v('tg_s')||0);setR('tg_r',s>=12?'เสี่ยง':'ปกติ')}
+let sum=0,n=0;for(let i=1;i<=10;i++){const x=g('adl'+i);if(x!=null){sum+=+x;n++}}$('#adl_v').textContent=n?sum+' / 20 (ตอบแล้ว '+n+'/10 ข้อ)':'-';if(n===10)setR('adl_g',sum>=12?'สังคม':sum>=5?'ติดบ้าน':'ติดเตียง');
+const ky=['k1','k2','k3','k4','k5'].map(g);if(ky.filter(x=>x==='ใช่').length>=2)setR('k_r','เสี่ยงเป็นข้อเข่าเสื่อม');else if(ky.every(x=>x))setR('k_r','ไม่เสี่ยง');
+const ey=['e2','e3','e4','e5','e6'].map(g);if(ey.includes('ใช่'))setR('e_r','มีปัญหา (ตอบ “ใช่” ข้อใดข้อหนึ่ง)');else if(ey.every(x=>x))setR('e_r','ไม่มีปัญหา (ตอบ ไม่ใช่ ทุกข้อ)')}
+/* ---------- เหตุการณ์ ---------- */
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;$('#tb').innerHTML=rows()}
+else if(e.target.closest&&e.target.closest('#sf')){if(e.target.name==='mc_rec')setR('mc_w',String(document.querySelectorAll('#sf [name="mc_rec"]:checked').length));S.dirty=true;recalc();stat()}
+else if(e.target.id==='f_dob'){const a=ageOf(e.target.value);if(a)$('#f_age').value=a}});
+document.addEventListener('change',e=>{if(e.target.id==='imp'){const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!Array.isArray(j.people))throw 0;let n=0;j.people.forEach(p=>{if(!DB.people.some(x=>x.id===p.id)){DB.people.push(p);n++}if(j.scr&&j.scr[p.id]&&(!DB.scr[p.id]||DB.scr[p.id].at<j.scr[p.id].at))DB.scr[p.id]=j.scr[p.id]});persist();render();toast('นำเข้าข้อมูลแล้ว (เพิ่มบุคคลใหม่ '+n+' ราย)')}catch(x){toast('ไฟล์ไม่ถูกต้อง')}};r.readAsText(e.target.files[0])}});
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
+if(a==='home'){if(S.v==='scr'&&S.dirty&&!S.warn){S.warn=true;return toast('มีข้อมูลที่ยังไม่ได้บันทึก — กดอีกครั้งเพื่อออกโดยไม่บันทึก')}S.warn=false;S.v='home';S.pid=null;S.dirty=false;render()}
+else if(a==='add'){S.v='person';S.pid=null;render()}
+else if(a==='edit'){S.v='person';S.pid=id;render()}
+else if(a==='scr'){S.v='scr';S.pid=id;S.warn=false;render()}
+else if(a==='find'){$('#q').focus();$('#list').scrollIntoView({behavior:'smooth'})}
+else if(a==='start'){if(!DB.people.length)return toast('กรุณาเพิ่มประวัติบุคคลก่อน');$('#hint').innerHTML='<div class="note">เลือกบุคคลจากตารางด้านล่าง แล้วกดปุ่ม “กรอกแบบคัดกรอง”</div>';$('#list').scrollIntoView({behavior:'smooth'});$('#q').focus()}
+else if(a==='sp'){const p={};new FormData($('#pf')).forEach((v,k)=>p[k]=v.trim());const er=$('#perr');
+if(!p.name)return er.textContent='กรุณากรอกชื่อ-สกุล';if(p.nid&&!/^\d{13}$/.test(p.nid))return er.textContent='เลขบัตรประชาชนต้องเป็นตัวเลข 13 หลัก';
+if(p.nid&&DB.people.some(x=>x.nid===p.nid&&x.id!==S.pid))return er.textContent='เลขบัตรประชาชนนี้มีในระบบแล้ว';
+if(!p.age&&p.dob)p.age=ageOf(p.dob);if(S.pid){Object.assign(DB.people.find(x=>x.id===S.pid),p)}else{p.id=uid();DB.people.push(p)}
+if(!persist())toast('บันทึกไม่สำเร็จ: เบราว์เซอร์ไม่อนุญาตให้จัดเก็บ');else toast('บันทึกประวัติเรียบร้อย');S.v='home';S.pid=null;render()}
+else if(a==='del'){if(b.dataset.c!=='1'){b.dataset.c='1';b.textContent='กดอีกครั้งเพื่อยืนยันการลบ (รวมแบบคัดกรอง)';return}DB.people=DB.people.filter(x=>x.id!==id);delete DB.scr[id];persist();toast('ลบประวัติแล้ว');S.v='home';S.pid=null;render()}
+else if(a==='ww'){const w=$('#wbox'),sh=w.dataset.s==='1';w.dataset.s=sh?'0':'1';w.textContent=sh?'••• ซ่อนคำอยู่ •••':'หลานสาว · สวรรค์ · ภูเขา';b.textContent=sh?'แสดงคำ':'ซ่อนคำ'}
+else if(a==='cc'){S.clk=null;clr();S.dirty=true;stat()}
+else if(a==='sw1'){if(SW.id)return;SW.s=performance.now();SW.id=setInterval(()=>{const x=$('#swt');if(!x){clearInterval(SW.id);SW.id=0;return}x.textContent=((performance.now()-SW.s)/1000).toFixed(1)+' วินาที'},100)}
+else if(a==='sw2'){if(!SW.id)return;clearInterval(SW.id);SW.id=0;const t=(performance.now()-SW.s)/1000;$('#swt').textContent=t.toFixed(1)+' วินาที';$('#tg_m').value=Math.floor(t/60);$('#tg_s').value=(t%60).toFixed(1);$('#tg_s').dispatchEvent(new Event('input',{bubbles:true}))}
+else if(a==='sw3'){clearInterval(SW.id);SW.id=0;$('#swt').textContent='0.0 วินาที'}
+else if(a==='pdf'){b.disabled=true;b.textContent='กำลังสร้าง PDF...';await makePDF(S.pid,collect(),S.clk);b.disabled=false;b.textContent='📄 ส่งออก PDF'}
+else if(a==='pdfh'){const o=b.textContent;b.disabled=true;b.textContent='กำลังสร้าง...';await makePDF(id,DB.scr[id].d,DB.scr[id].clock);b.disabled=false;b.textContent=o}
+else if(a==='ss'){DB.scr[S.pid]={d:collect(),at:new Date().toISOString(),clock:S.clk||null};if(persist()){S.dirty=false;S.warn=false;toast('บันทึกแบบคัดกรองเรียบร้อย')}else toast('บันทึกไม่สำเร็จ: เบราว์เซอร์ไม่อนุญาตให้จัดเก็บ');stat()}
+else if(a==='exp'){const txt=JSON.stringify({ver:1,exported:new Date().toISOString(),...DB},null,1),fn='bgs-backup-'+isoToday()+'.json';let ok=false;try{const dl=window.claude&&await claude.use('downloads');if(dl){await dl.save({filename:fn,data:new Blob([txt],{type:'application/json'})});ok=true}}catch(x){if(x&&x.code==='declined')return}
+if(!ok){const w=document.createElement('textarea');w.value=txt;w.style.cssText='width:100%;height:140px';$('#hint').innerHTML='<div class="note">คัดลอกข้อความด้านล่างไปบันทึกเป็นไฟล์ .json เพื่อสำรองข้อมูล</div>';$('#hint').appendChild(w);w.select()}}});
+const SW={id:0,s:0};let CV,cx;
+function drawRef(){const c=$('#clkref');if(!c)return;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,200,200);g.strokeStyle='#1d3b4f';g.fillStyle='#1d3b4f';g.lineWidth=3;g.beginPath();g.arc(100,100,94,0,7);g.stroke();g.font='bold 15px sans-serif';g.textAlign='center';g.textBaseline='middle';for(let i=1;i<=12;i++){const a=i*Math.PI/6;g.fillText(String(i),100+76*Math.sin(a),100-76*Math.cos(a))}
+const h=(a,l,w)=>{g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(100,100);g.lineTo(100+l*Math.sin(a),100-l*Math.cos(a));g.stroke()};h((11+10/60)*Math.PI/6,42,5);h(10*Math.PI/30,62,3);g.beginPath();g.arc(100,100,4,0,7);g.fill()}
+function clr(){cx.fillStyle='#fff';cx.fillRect(0,0,CV.width,CV.height)}
+function initClock(){CV=$('#clk');if(!CV)return;drawRef();cx=CV.getContext('2d');clr();cx.lineWidth=4;cx.lineCap='round';cx.lineJoin='round';cx.strokeStyle='#1d3b4f';S.clk=null;const s=DB.scr[S.pid];if(s&&s.clock){S.clk=s.clock;const im=new Image();im.onload=()=>cx.drawImage(im,0,0);im.src=s.clock}
+let dr=false;const pt=e=>{const r=CV.getBoundingClientRect();return[(e.clientX-r.left)*CV.width/r.width,(e.clientY-r.top)*CV.height/r.height]};
+CV.onpointerdown=e=>{dr=true;CV.setPointerCapture(e.pointerId);const[x,y]=pt(e);cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+.1,y+.1);cx.stroke();e.preventDefault()};
+CV.onpointermove=e=>{if(!dr)return;const[x,y]=pt(e);cx.lineTo(x,y);cx.stroke()};
+CV.onpointerup=CV.onpointercancel=()=>{if(!dr)return;dr=false;S.clk=CV.toDataURL('image/png');S.dirty=true;stat()}}
+let WR=null;
+document.addEventListener('pointerdown',e=>{const l=e.target.closest&&e.target.closest('#sf .ch'),r=l&&l.querySelector('input[type=radio]');WR=r&&r.checked?r:null},true);
+document.addEventListener('click',e=>{if(WR&&e.target===WR){WR.checked=false;WR.dispatchEvent(new Event('input',{bubbles:true}));WR=null}},true);
+/* ---------- ส่งออก PDF ---------- */
+const bx=on=>`<i class='bx${on?' on':''}'></i>`;
+function repItem(it,d,p){const v=d[it.n],o=(it.o||[]).map(x=>typeof x==='string'?[x,x]:x);
+if(it.k==='r')return`<div class='rq'>${it.l?`<b>${it.l}</b><br>`:''}${o.map(([val,t])=>`<span class='ro${v===val?' on':''}'>${bx(v===val)}${t}</span>`).join('')}</div>`;
+if(it.k==='c'){const a=d[it.n]||[];return`<div class='rq'>${it.l}: ${o.map(([val,t])=>`<span class='ro${a.includes(val)?' on':''}'>${bx(a.includes(val))}${t}</span>`).join('')}</div>`}
+if(it.k==='n')return`<div class='rq'>${it.l}${it.l?': ':''}<b>${v!=null?esc(v):'......'}</b> ${it.u||''}</div>`;
+if(it.k==='t')return`<div class='rq'>${it.l}: <b>${esc(v)||'.........'}</b></div>`;
+if(it.k==='d')return`<div class='rq'>${it.l}: <b>${v?fmtD(v):'.........'}</b></div>`;
+if(it.k==='x'){let t='-';if(it.id==='osta_v'){const w=parseFloat(d.weight),a=parseFloat(p.age);if(!isNaN(w)&&!isNaN(a))t=(0.2*(w-a)).toFixed(1)}else if(it.id==='mc_v'){if(d.mc_w!=null&&d.mc_c!=null)t=(+d.mc_w + +d.mc_c)+' / 5'}else{const ks=[...Array(10)].map((_,i)=>'adl'+(i+1));if(ks.some(k=>d[k]!=null))t=ks.reduce((s,k)=>s+(+d[k]||0),0)+' / 20'}return`<div class='rq'><b>${it.l}: ${t}</b></div>`}
+if(it.k==='cl')return clock_?`<div class='rq'><b>ภาพวาดนาฬิกา (ข้อ 6.2)</b><br><img src='${clock_}'></div>`:'';
+return''}
+let clock_=null;
+function reportHTML(p,d){const f=k=>`<div>${PF.find(x=>x[0]===k)[1].replace(' *','')}: <b>${esc(p[k])||'-'}</b></div>`;
+let h=`<div class='rb'><div class='rt'>แบบฟอร์มคัดกรองผู้สูงอายุ (Basic Geriatric Screening : BGS)<br>และการคัดกรองกลุ่มอาการของผู้สูงอายุ 9 ด้าน ปี 2569</div><div style='text-align:center'>หน่วยงาน <b>${esc(p.unit)||'.....'}</b> อำเภอ <b>${esc(p.unit_amp)||'.....'}</b> จังหวัดประจวบคีรีขันธ์</div></div>`;
+h+=`<div class='rb'><div class='pg'>${['name','age','sex','nid','tel','addr','moo','tambon','amp','prov','ref_name','ref_rel'].map(f).join('')}</div></div>`;
+SEC.forEach(s=>{if(s.g){h+=`<div class='rb rg'>${s.g}</div>`;return}h+=`<div class='rb'><div class='rh'>${s.t}</div>${s.i.map(it=>repItem(it,d,p)).join('')}</div>`});return h}
+function reportHTML2(p,d){const u=v=>`<span class='u'>${esc(v)||'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}</span>`;
+let h=`<div class='rb'><div class='sx hd'><div class='rt' style='text-align:center'>แบบฟอร์มคัดกรองผู้สูงอายุ (Basic Geriatric Screening : BGS) และ<br>การคัดกรองกลุ่มอาการของผู้สูงอายุ 9 ด้าน ปี 2569</div>
+<div class='hl'><b>หน่วยงาน</b>${u(p.unit)} <b>อำเภอ</b>${u(p.unit_amp)} <b>จังหวัด</b> ประจวบคีรีขันธ์</div>
+<div class='hl'><b>ชื่อ-สกุล</b>${u(p.name)} <b>ว/ด/ป เกิด</b>${u(p.dob?fmtD(p.dob):'')} <b>อายุ</b>${u(p.age)} <b>ปี เพศ</b>${u(p.sex)}</div>
+<div class='hl'><b>เลขบัตรประชาชน</b>${u(p.nid)} <b>เบอร์โทรศัพท์</b>${u(p.tel)} <b>ที่อยู่เลขที่</b>${u(p.addr)} <b>หมู่</b>${u(p.moo)}</div>
+<div class='hl'><b>ตำบล</b>${u(p.tambon)} <b>อำเภอ</b>${u(p.amp)} <b>จังหวัด</b>${u(p.prov)}</div>
+<div class='hl'><b>บุคคลอ้างอิง ชื่อ-สกุล</b>${u(p.ref_name)} <b>ความสัมพันธ์</b>${u(p.ref_rel)}</div></div></div>`;
+const lf=['สูตร','6.1','7.1','ถามผู้สูงอายุ','วิธีการ','คำถาม','9.2'];
+SEC.forEach(s=>{if(s.g){h+=`<div class='rb'><div class='sx gt'>${s.g}</div></div>`;return}
+const L=[],Rn=[];s.i.forEach(it=>{if(it.k==='i'&&!lf.some(x=>it.l.startsWith(x)))Rn.push(it.l);else L.push(it)});
+h+=`<div class='rb'><div class='sx'><div class='sl'><div class='rh'>${s.t}</div>${L.map(it=>it.k==='i'?`<div class='rn'>${it.l}</div>`:repItem(it,d,p)).join('')}</div>${Rn.length?`<div class='sr'><b>การแปลผล</b>${Rn.map(t=>`<div class='rn'>${t}</div>`).join('')}</div>`:''}</div></div>`});
+h+=`<div class='rb'><div class='fn'><b>หมายเหตุ</b> : กลุ่มงานส่งเสริมสุขภาพ สำนักงานสาธารณสุขจังหวัดประจวบคีรีขันธ์ ปรับปรุงแก้ไข ตามคู่มือการคัดกรองและประเมินสุขภาพผู้สูงอายุ พ.ศ. 2564 กระทรวงสาธารณสุข และแบบประเมินการคัดกรองกลุ่มอาการของผู้สูงอายุ 9 ด้าน พ.ศ. 2566 ของกรมอนามัย เริ่มใช้ 1 ตุลาคม 2566</div></div>`;return h}
+async function makePDF(pid,d,clock){const p=DB.people.find(x=>x.id===pid);if(!window.html2canvas||!window.jspdf)return toast('โหลดตัวสร้าง PDF ไม่สำเร็จ (ต้องต่ออินเทอร์เน็ต)');
+clock_=clock;const host=document.createElement('div');host.className='rep';host.innerHTML=reportHTML2(p,d);document.body.appendChild(host);
+try{await Promise.all([document.fonts.load('13px "Noto Sans Thai"','ก'),document.fonts.load('700 13px "Noto Sans Thai"','ก')]).catch(()=>{});await Promise.all([...host.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));
+const pdf=new window.jspdf.jsPDF('p','mm','a4'),W=210,H=297,M=8;let y=M;
+for(const el of host.querySelectorAll('.rb')){const c=await html2canvas(el,{scale:2,backgroundColor:'#fff'});const h=c.height*(W-2*M)/c.width;if(y+h>H-M&&y>M){pdf.addPage();y=M}pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',M,y,W-2*M,h);y+=h-.25}
+const dl=window.claude&&await claude.use('downloads');if(!dl)return toast('มุมมองนี้ดาวน์โหลดไฟล์ไม่ได้ — เปิดหน้านี้ใน claude.ai แล้วลองใหม่');
+await dl.save({filename:'BGS_'+(p.name||'person').replace(/\s+/g,'_')+'_'+isoToday()+'.pdf',data:pdf.output('blob')});toast('ส่งออก PDF เรียบร้อย')}
+catch(x){if(!x||x.code!=='declined')toast('สร้าง PDF ไม่สำเร็จ ลองใหม่อีกครั้ง')}finally{host.remove()}}
+window.addEventListener('beforeunload',e=>{if(S.dirty){e.preventDefault();e.returnValue=''}});
+render();
+</script></body></html>
